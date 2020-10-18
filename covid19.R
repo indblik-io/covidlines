@@ -90,7 +90,7 @@ spatial_data_df$city <- aoi_r$z
 
 line_color = c('#fba298', "#f84d39", "#f84d39", "#f84d39", "#f84d39", "#f84d39")
 
-arrow <- tibble(x =        c(230, 245, 127, 130, 173, 185, 82, 50, 44,  25), 
+arrow <- tibble(x =    c(230, 245, 127, 130, 173, 185, 82, 50, 44,  25), 
                 xend = c(245, 260, 130, 133, 185, 229, 50, 29, 25,  14), 
                 y =    c(160, 170, 192, 220, 30,  34,  84, 84, 127, 127), 
                 yend = c(170, 170, 220, 224, 34,  34,  84, 50, 127, 148))
@@ -161,6 +161,4 @@ spatial_data_df %>%
   annotate("text", x = 15, y = 150, label = "Dortmund", size = 2.7, family = "Overpass Mono") +
   annotate("text", x = 144, y = 225, label = "Hamburg", size = 2.7, family = "Overpass Mono")
 
-
 ggsave("covidlines.png", width = 6.58, height = 8.58)
-
