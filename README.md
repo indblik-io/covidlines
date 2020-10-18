@@ -1,6 +1,6 @@
 ## COVID-19 Line Map
 
-![covidlines.gif]https://github.com/marcosci/covidlines/blob/main/covidlines.png?raw=true
+![covidlines.gif](https://raw.githubusercontent.com/marcosci/covidlines/main/covidlines.png)
 
 Inspired by James Cheshire's [Population Lines Print](https://spatial.ly/2014/08/population-lines/), I wanted to track the spatial Pattern of the COVID-19 in Germany over time. This map shows the density of confirmed cases COVID-19 cases by latitude. 
 
