@@ -37,7 +37,10 @@ spatial_data <- map_dfr(na.omit(unique(germany_cov_clean$Date)), function(id_dat
     filter(Date == as.Date(id_date)) 
   
   # since we only have polygons where NewIll > 0, we need to join the "empty" ones
-  cov_intermed <- st_join(germany_sf, cov_intermed) 
+  cov_intermed <- suppressWarnings(st_join(germany_sf, cov_intermed))
+  
+  # standardize by area
+  cov_intermed$SUM <- (cov_intermed$SUM / st_area(cov_intermed))
   
   # and since "empty" actually means 0, we are going to do this
   cov_intermed$SUM <- cov_intermed$SUM %>% replace_na(0)
@@ -74,7 +77,7 @@ p1 <- ggplot(spatial_data_df, aes(lng, lat + 6*(value/max(value, na.rm=TRUE)))) 
     caption = "Visualization by Marco Sciaini • Data by RKI"
   ) +
   transition_time(date) +
-  shadow_wake(wake_length = 0.1, colour = '#fefefe')
+  shadow_wake(wake_length = 0.1, colour = '#5A3E37')
 
 gganimate::animate(p1,
                    render = gifski_renderer(),
@@ -92,14 +95,16 @@ id_date = "2020-10-05"
 
 spatial_data %>% 
   filter(date == as.Date(id_date)) %>% 
-  ggplot(aes(lng, lat + 6*(value/max(value, na.rm=TRUE)))) +
-  geom_line(size=0.4, alpha=0.8, color='#5A3E37', aes(group=lat), na.rm=TRUE) +
+  ggplot(aes(lng, lat + 25*(value/max(value, na.rm=TRUE)))) +
+  geom_line(size=0.4, alpha=0.8, color='#EEBCB1FF', aes(group=lat), na.rm=TRUE) +
   ggthemes::theme_map(base_family = "Overpass Mono") +
   labs(
     title = paste("Day:", id_date), 
-    subtitle = "Shown is the number of new confirmed COVID-19 cases for each day since March, 2020.",
+    subtitle = "Shown is the number of new confirmed COVID-19 as latitudinal density.",
     caption = "Visualization by Marco Sciaini • Data by RKI"
-  ) 
+  ) +
+  theme(plot.background = element_rect(fill = "#e6eaeb", "#e6eaeb")) 
+
 
 ggsave("covidlines.png", width = 6.58, height = 8.58)
 
